@@ -1,0 +1,13 @@
+.venv/
+.venv-airflow/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.local/
+.env
+.DS_Store
+dist/
+airflow_home/
+*.duckdb
+*.duckdb.wal

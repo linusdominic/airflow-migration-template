@@ -1,0 +1,14 @@
+# Production. Every value comes from the environment, so no secret is in this file.
+# WAREHOUSE_URL   redshift://user:password@cluster:5439/db   or   postgresql://...
+# SOURCE_URL      the operational database the pipelines extract from
+# LANDING_URL     s3://bucket/prefix   or   gs://bucket/prefix   or   abfs://container/prefix
+connections:
+  warehouse: ${WAREHOUSE_URL}
+  source: ${SOURCE_URL}
+  landing: ${LANDING_URL}
+
+schemas:
+  staging: staging
+  core: core
+  marts: marts
+  platform: platform

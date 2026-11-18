@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Tests on DuckDB and PostgreSQL
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: platform
+          POSTGRES_PASSWORD: platform
+          POSTGRES_DB: warehouse
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U platform -d warehouse"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 30
+    env:
+      TEST_POSTGRES_URL: postgresql://platform:platform@localhost:5432/warehouse
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      # Every test, including the five-day run on PostgreSQL.
+      - run: uv run pytest -v
+      # The self-test in the local environment, then in a PostgreSQL one.
+      - run: uv run dp selftest
+      - run: uv run dp selftest
+        env:
+          PLATFORM_ENV: dev
+          WAREHOUSE_URL: postgresql://platform:platform@localhost:5432/warehouse
+          SOURCE_URL: postgresql://platform:platform@localhost:5432/warehouse
+      # The demo from the README must keep working.
+      - run: make demo
+
+  airflow:
+    name: DAGs in Airflow
+    runs-on: ubuntu-latest
+    env:
+      AIRFLOW_HOME: ${{ github.workspace }}/airflow_home
+      AIRFLOW__CORE__DAGS_FOLDER: ${{ github.workspace }}/dags
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: make airflow-install
+      - run: make test-airflow
+      # A whole DAG run inside Airflow, against the local DuckDB warehouse.
+      - run: make airflow-run

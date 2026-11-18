@@ -1,0 +1,55 @@
+[project]
+name = "dataplatform"
+version = "0.1.0"
+description = "A production-shaped Airflow data platform to migrate legacy ETL jobs (Talend and others) into: decoupled pipelines, warehouse adapters, tests, and a self-test that runs on DuckDB or on your cloud warehouse."
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Linus Dominic Nathaniel", email = "51094161+linusdominic@users.noreply.github.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=1.1",
+    "jinja2>=3.1",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.2"]
+redshift = ["psycopg[binary]>=3.2"]
+cloud = ["fsspec>=2024.6"]
+airflow = ["apache-airflow>=3.0"]
+
+[project.scripts]
+dp = "dataplatform.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "fsspec>=2024.6",
+    "psycopg[binary]>=3.2",
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = [
+    "postgres: needs a PostgreSQL database in TEST_POSTGRES_URL",
+    "airflow: needs Apache Airflow installed",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+"pipelines/*" = ["E501"]  # a pipeline reads better with one task argument per line

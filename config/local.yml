@@ -1,0 +1,12 @@
+# A laptop, or CI. Nothing to install and nothing to start: the warehouse and the source
+# system are DuckDB files, and the landing zone is a folder.
+connections:
+  warehouse: duckdb://${PLATFORM_HOME:-.local}/warehouse.duckdb
+  source: duckdb://${PLATFORM_HOME:-.local}/source.duckdb
+  landing: file://${PLATFORM_HOME:-.local}/landing
+
+schemas:
+  staging: staging
+  core: core
+  marts: marts
+  platform: platform

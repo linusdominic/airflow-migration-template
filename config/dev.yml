@@ -1,0 +1,11 @@
+# A shared development environment: a real PostgreSQL warehouse, files still local.
+connections:
+  warehouse: ${WAREHOUSE_URL:-postgresql://platform:platform@localhost:5432/warehouse}
+  source: ${SOURCE_URL:-postgresql://platform:platform@localhost:5432/source}
+  landing: ${LANDING_URL:-file://.local/landing}
+
+schemas:
+  staging: staging
+  core: core
+  marts: marts
+  platform: platform

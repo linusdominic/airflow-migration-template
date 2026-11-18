@@ -1,0 +1,30 @@
+# Airflow and a PostgreSQL warehouse, for trying the platform in containers.
+# Not run by me: on my machine I ran Airflow from a virtual environment (make airflow-run).
+services:
+  warehouse:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: platform
+      POSTGRES_PASSWORD: platform
+      POSTGRES_DB: warehouse
+    ports: ["5432:5432"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "platform", "-d", "warehouse"]
+      interval: 2s
+      retries: 30
+
+  airflow:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: standalone
+    depends_on:
+      warehouse:
+        condition: service_healthy
+    environment:
+      PLATFORM_ENV: dev
+      WAREHOUSE_URL: postgresql://platform:platform@warehouse:5432/warehouse
+      SOURCE_URL: postgresql://platform:platform@warehouse:5432/warehouse
+      LANDING_URL: file:///opt/platform/landing
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+    ports: ["8080:8080"]
