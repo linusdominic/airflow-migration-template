@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="452" viewBox="0 0 980 452" role="img" aria-label="Architecture: Airflow DAGs (through airflow_adapter.py, the only Airflow import), the dp command and pytest all call runner.run_task, which writes every task of every run to platform.run_log and runs the pipeline&#x27;s tasks (LoadCsv, CopyQuery, RunSql, Upsert, Scd2, QualityChecks). Tasks reach data only through the ports.py interfaces: Warehouse (DuckDB, PostgreSQL or Redshift adapter) and ObjectStore (a local folder, or S3, GCS and Azure through fsspec).">
+  <title>Architecture: Airflow DAGs (through airflow_adapter.py, the only Airflow import), the dp command and pytest all call runner.run_task, which writes every task of every run to platform.run_log and runs the pipeline&#x27;s tasks (LoadCsv, CopyQuery, RunSql, Upsert, Scd2, QualityChecks). Tasks reach data only through the ports.py interfaces: Warehouse (DuckDB, PostgreSQL or Redshift adapter) and ObjectStore (a local folder, or S3, GCS and Azure through fsspec).</title>
+  <rect x="0.5" y="0.5" width="979" height="451" rx="12" fill="#0d1117" stroke="#30363d"/>
+  <text x="28.0" y="40.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#f0f6fc" text-anchor="start">How a task runs</text>
+  <text x="28.0" y="60.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198a1" text-anchor="start">Every caller goes through runner.run_task. Tasks see only the Warehouse and ObjectStore interfaces in ports.py.</text>
+  <rect x="743.5" y="94.0" width="220.5" height="228.0" rx="10" fill="#151b23" stroke="#30363d"/>
+  <text x="755.5" y="113.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#9198a1" text-anchor="start">ports.py interfaces</text>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#757e8a"/></marker></defs>
+  <path d="M224.5,162.0 C247.5,162.0 244.5,272.0 267.5,272.0" fill="none" stroke="#757e8a" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M224.5,272.0 C247.5,272.0 244.5,272.0 267.5,272.0" fill="none" stroke="#757e8a" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M224.5,374.0 C247.5,374.0 244.5,272.0 267.5,272.0" fill="none" stroke="#757e8a" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M467.0,272.0 C490.0,272.0 487.0,272.0 510.0,272.0" fill="none" stroke="#757e8a" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M368.8,310.0 L368.8,333.0" fill="none" stroke="#757e8a" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M709.5,272.0 C732.5,272.0 729.5,162.0 752.5,162.0" fill="none" stroke="#757e8a" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M709.5,272.0 C732.5,272.0 729.5,272.0 752.5,272.0" fill="none" stroke="#757e8a" stroke-width="1.5" marker-end="url(#a)"/>
+  <rect x="28.0" y="116.0" width="196.5" height="92.0" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="29.0" y="124.0" width="3" height="76.0" rx="1.5" fill="#3987e5"/>
+  <text x="42.0" y="141.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#f0f6fc" text-anchor="start">Airflow DAG</text>
+  <text x="42.0" y="161.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">dags/*.py through</text>
+  <text x="42.0" y="177.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">airflow_adapter.py, the only</text>
+  <text x="42.0" y="193.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">Airflow import</text>
+  <rect x="28.0" y="234.0" width="196.5" height="76.0" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="29.0" y="242.0" width="3" height="60.0" rx="1.5" fill="#3987e5"/>
+  <text x="42.0" y="259.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#f0f6fc" text-anchor="start">dp command</text>
+  <text x="42.0" y="279.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">dp run, dp backfill, dp</text>
+  <text x="42.0" y="295.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">selftest</text>
+  <rect x="28.0" y="344.0" width="196.5" height="60.0" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="29.0" y="352.0" width="3" height="44.0" rx="1.5" fill="#3987e5"/>
+  <text x="42.0" y="369.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#f0f6fc" text-anchor="start">pytest</text>
+  <text x="42.0" y="389.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">tests/, the same code path</text>
+  <rect x="270.5" y="234.0" width="196.5" height="76.0" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="271.5" y="242.0" width="3" height="60.0" rx="1.5" fill="#4d5560"/>
+  <text x="284.5" y="259.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#f0f6fc" text-anchor="start">runner.run_task</text>
+  <text x="284.5" y="279.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">the one place a task is</text>
+  <text x="284.5" y="295.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">executed</text>
+  <rect x="270.5" y="336.0" width="196.5" height="76.0" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="271.5" y="344.0" width="3" height="60.0" rx="1.5" fill="#199e70"/>
+  <text x="284.5" y="361.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#f0f6fc" text-anchor="start">platform.run_log</text>
+  <text x="284.5" y="381.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">every task of every run, in</text>
+  <text x="284.5" y="397.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">the warehouse</text>
+  <rect x="513.0" y="234.0" width="196.5" height="76.0" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="514.0" y="242.0" width="3" height="60.0" rx="1.5" fill="#4d5560"/>
+  <text x="527.0" y="259.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#f0f6fc" text-anchor="start">Pipeline tasks</text>
+  <text x="527.0" y="279.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">LoadCsv, CopyQuery, RunSql,</text>
+  <text x="527.0" y="295.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">Upsert, Scd2, QualityChecks</text>
+  <rect x="755.5" y="124.0" width="196.5" height="76.0" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="756.5" y="132.0" width="3" height="60.0" rx="1.5" fill="#199e70"/>
+  <text x="769.5" y="149.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#f0f6fc" text-anchor="start">Warehouse</text>
+  <text x="769.5" y="169.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">DuckDB, PostgreSQL or</text>
+  <text x="769.5" y="185.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">Redshift adapter</text>
+  <rect x="755.5" y="234.0" width="196.5" height="76.0" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <rect x="756.5" y="242.0" width="3" height="60.0" rx="1.5" fill="#199e70"/>
+  <text x="769.5" y="259.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#f0f6fc" text-anchor="start">ObjectStore</text>
+  <text x="769.5" y="279.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">local folder, or S3, GCS,</text>
+  <text x="769.5" y="295.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">Azure through fsspec</text>
+  <rect x="28.0" y="432.0" width="3" height="12" rx="1.5" fill="#3987e5"/>
+  <text x="38.0" y="442.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">input</text>
+  <rect x="91.0" y="432.0" width="3" height="12" rx="1.5" fill="#4d5560"/>
+  <text x="101.0" y="442.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">step</text>
+  <rect x="150.5" y="432.0" width="3" height="12" rx="1.5" fill="#199e70"/>
+  <text x="160.5" y="442.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198a1" text-anchor="start">stored result</text>
+</svg>

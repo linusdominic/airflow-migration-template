@@ -64,6 +64,11 @@ This repository is the starting point I would want for that work now.
 
 ## What was verified, and how
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/results-dark.svg">
+  <img alt="What was verified on 18 November 2026: 33 tests pass on DuckDB, including five days of all three pipelines with re-runs and out-of-order runs; the self-test passes 8 of 8 checks on PostgreSQL 16 and the five-day run passes there with no pipeline changed; 6 DAG tests pass in Airflow 3.4.0 and a full loans_daily run loaded 60 loans. Not run: Redshift, S3, GCS and Azure storage, the container files, and Airflow 2." src="docs/img/results-light.svg">
+</picture>
+
 | | Result | How |
 |---|---|---|
 | DuckDB | 33 tests pass. Five days of all three pipelines load, reconcile, and survive re-runs and out-of-order runs | `make test` |
@@ -112,6 +117,14 @@ make airflow-run              # one full run of loans_daily, for 2026-11-10
 
 ## How it is put together
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/architecture-dark.svg">
+  <img alt="Architecture: Airflow DAGs (through airflow_adapter.py, the only Airflow import), the dp command and pytest all call runner.run_task, which writes every task of every run to platform.run_log and runs the pipeline&#x27;s tasks (LoadCsv, CopyQuery, RunSql, Upsert, Scd2, QualityChecks). Tasks reach data only through the ports.py interfaces: Warehouse (DuckDB, PostgreSQL or Redshift adapter) and ObjectStore (a local folder, or S3, GCS and Azure through fsspec)." src="docs/img/architecture-light.svg">
+</picture>
+
+<details>
+<summary>The same diagram as text, with more detail</summary>
+
 ```mermaid
 flowchart TB
     subgraph run["Ways to run a pipeline"]
@@ -135,6 +148,8 @@ flowchart TB
     O --> L["Local folder"]
     O --> F["S3, GCS, Azure<br/>through fsspec"]
 ```
+
+</details>
 
 Three rules hold the design together, and each has a test.
 
