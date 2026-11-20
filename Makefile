@@ -33,8 +33,8 @@ airflow-install: ## Airflow in its own environment, pinned with the official con
 		--constraint "https://raw.githubusercontent.com/apache/airflow/constraints-$(AIRFLOW_VERSION)/constraints-$(PYTHON_VERSION).txt"
 	uv pip install --python .venv-airflow/bin/python -e . pytest "psycopg[binary]" fsspec
 
-test-airflow: ## the DAGs, checked with Airflow itself
-	.venv-airflow/bin/python -m pytest -m airflow
+test-airflow: ## the DAGs, checked with Airflow itself. Airflow's files go in airflow_home/ (git-ignored)
+	AIRFLOW_HOME=$(CURDIR)/airflow_home .venv-airflow/bin/python -m pytest -m airflow
 
 airflow-run: ## run one DAG inside Airflow for one date, against the local DuckDB warehouse
 	AIRFLOW_HOME=$(CURDIR)/airflow_home AIRFLOW__CORE__DAGS_FOLDER=$(CURDIR)/dags AIRFLOW__CORE__LOAD_EXAMPLES=False \

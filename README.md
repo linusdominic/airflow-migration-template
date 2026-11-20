@@ -107,6 +107,25 @@ export SOURCE_URL=$WAREHOUSE_URL
 uv run dp selftest
 ```
 
+[.env.example](.env.example) lists the variables you are likely to set. Nothing loads a
+`.env` file, so export them as above, or copy it to `.env`, fill it in and run
+`set -a; source .env; set +a`.
+
+`docker-compose.yml` has two services. `warehouse` is PostgreSQL 16 on port 5432 (user,
+password and database as in the URL below), the same image and credentials CI uses for
+`make test-postgres`. `airflow` builds `docker/Dockerfile` and runs Airflow standalone on
+port 8080; it has not been built or run (see the table above). To run the PostgreSQL test
+against the compose warehouse, then stop it:
+
+```bash
+docker compose up -d --wait warehouse
+TEST_POSTGRES_URL=postgresql://platform:platform@localhost:5432/warehouse make test-postgres
+docker compose down
+```
+
+CI runs the PostgreSQL test against its own service container; the compose `warehouse`
+service has not been started.
+
 Inside Airflow:
 
 ```bash
